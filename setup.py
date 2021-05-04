@@ -15,7 +15,7 @@ setup(
     py_modules=['ed'],
     packages=find_packages(),
     include_package_data =True,
-    install_requires=read_requirements(),
+    install_requires=['click'],
     entry_points='''
         [console_scripts]
         ed=ed.cli:cli
