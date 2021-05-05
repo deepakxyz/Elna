@@ -7,15 +7,15 @@ class ComplexCLI(click.MultiCommand):
         commands = []
         commands_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "commands"))
         for filename in os.listdir(commands_folder):
-            if filename.endswith(".py") and filename.startswith("ed_"):
-                commands.append(filename.replace("ed_", "").replace(".py", ""))
+            if filename.endswith(".py") and filename.startswith("el_"):
+                commands.append(filename.replace("el_", "").replace(".py", ""))
 
         commands.sort()
         return commands
 
     def get_command(self, ctx, name):
         try:
-            mod = __import__(f"ed.commands.ed_{name}", None, None, ["cli"])
+            mod = __import__(f"el.commands.el_{name}", None, None, ["cli"])
         except ImportError:
             return
         return mod.cli
@@ -23,5 +23,5 @@ class ComplexCLI(click.MultiCommand):
 
 @click.command(cls=ComplexCLI)
 def cli():
-    '''Welcome to Ed'''
+    '''Welcome to Edna'''
     pass

@@ -1,9 +1,9 @@
 # Edn Architecture
 
-> edn > create > show
+> el > create > show
         - show : Create show/project
         -  
-> edn > deploy > show
+> el > deploy > show
     
 
 

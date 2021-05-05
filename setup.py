@@ -12,12 +12,12 @@ print(read_requirements())
 setup(
     name="noob",
     version="0.1",
-    py_modules=['ed'],
+    py_modules=['el'],
     packages=find_packages(),
     include_package_data =True,
     install_requires=['click'],
     entry_points='''
         [console_scripts]
-        ed=ed.cli:cli
+        el=el.cli:cli
     '''
 )
