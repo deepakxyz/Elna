@@ -1,6 +1,7 @@
 import os
 
 # check if the directory exsists if not create
+# decorator function
 def create_dir(func):
     def wrapper(*args, **kwargs):
         arguments = kwargs
