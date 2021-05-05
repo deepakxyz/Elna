@@ -10,7 +10,7 @@ def read_requirements():
 print(read_requirements())
 
 setup(
-    name="noob",
+    name="elna",
     version="0.1",
     py_modules=['el'],
     packages=find_packages(),

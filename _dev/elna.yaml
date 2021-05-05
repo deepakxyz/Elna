@@ -1,0 +1,16 @@
+# comment
+
+name: "deepak"
+occupation: 'programmer'
+age: 24
+gpa: 2.5
+fav_num: 1e+10
+male: True
+birthday: 1994-02-06 14:22:22 #ISO 8601
+flaws: null
+hobbies:
+  - first_item
+  - second_item
+  - third_item
+  
+
