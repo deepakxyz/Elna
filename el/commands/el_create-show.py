@@ -27,6 +27,7 @@ def cli(stay):
         show = CreateShow(path=base_path, name=show_name, short_name=short_name, desc=description)
         req = show.create_dir()
         # if only the directory got created 
+        # then run the following
         if req:
             show.add_to_json()
             if not stay:

@@ -9,7 +9,7 @@ class el:
         final_msg = (f"{lvl}: {msg}")
         print(final_msg)
         
-
+    # change the current working directory
     @classmethod
     def cwd(cls,path):
         os.chdir(path)
