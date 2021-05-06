@@ -9,8 +9,8 @@ def read_yaml(file_path):
 
 # Dump yaml
 def dump_yaml(file_path,data):
-    with open(file_path, 'w') as r:
-        json.dump(data, wf)
+    with open(file_path, 'w') as wf:
+        yaml.dump(data, wf)
 
 
 # Read json

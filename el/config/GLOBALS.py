@@ -1,0 +1,1 @@
+CONFIG_FILE_PATH = '/mnt/z/Elna/el/config/main.config'
