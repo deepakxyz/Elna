@@ -22,7 +22,7 @@ def read_json(json_file_path):
 
 
 # Dump json
-def write_json(json_file_path, data):
+def dump_json(json_file_path, data):
     with open(json_file_path, 'w') as wf:
         json.dump(data, wf, indent=4)
 

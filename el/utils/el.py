@@ -1,4 +1,5 @@
 import os
+import logging
 
 class el:
 
@@ -13,3 +14,9 @@ class el:
     def cwd(cls,path):
         os.chdir(path)
         os.system('/bin/bash')
+
+
+    @classmethod
+    def log(cls, msg, level):
+        logging.basicConfig(level=logging.DEBUG, filename='test.log', format='%(asctime)s -%(levelname)s -- %(message)s')
+        logging.debug(f'Add {num1} + {num2} = {add_result}')

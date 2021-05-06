@@ -1,6 +1,6 @@
 import click
-from el.func.goshow import GoShow
 from el.utils.el import el
+from el.func.goshow import GoShow
 
 
 @click.command()

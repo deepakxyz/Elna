@@ -1,6 +1,6 @@
 import os
 from el.utils.el import el
-from el.utils.read_dump import dump_yaml, read_yaml
+from el.utils.read_dump import dump_yaml, read_yaml, dump_json
 
 from el.config.GLOBALS import CONFIG_FILE_PATH
 
@@ -67,7 +67,13 @@ class Init():
         dump_yaml(main_config_path, data)
 
         ## CREATE SHOWS.JSON FILE
-        
+        show_json_path = os.path.join(self.fullpath, 'Shows.json')
+        os.system(f'touch {show_json_path}')
+
+        # empty data
+        data_json = {"shows":[]}
+        dump_json(show_json_path,data_json)
+
 
 
         
