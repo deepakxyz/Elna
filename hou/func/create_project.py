@@ -1,5 +1,7 @@
 import os
 from hou.utils.utils import echo, cwd
+from hou.utils.read_dump import read_json, dump_json
+from time import gmtime, strftime
 
 # create new houdini project
 class CreateProject():
@@ -9,18 +11,49 @@ class CreateProject():
         self.fullpath = os.path.join(self.path,self.name) 
         self.desc = desc
 
-        # exe
-        self.check_create()
+        self.create_dir()
+
+    @staticmethod
+    def check_dir(fullpath):
+        if not os.path.isdir(fullpath):
+            return True
+        else:
+            echo(f"Project '{fullpath}' already exists.")
+            return False
+
+
 
 
     # check if the project already exist
-    def check_create(self):
-        if not os.path.isdir(self.fullpath):
+    def create_dir(self):
             # create directory
             os.mkdir(self.fullpath)
-            return True
+            echo("Project successfull created.")
+            
+            # create sub dirctory
+            self.create_sub_dir()
 
-        else:
-            echo(f"Project '{self.name}' already exists.")
-            return False
+
+
+    # change directory
+    def cwd(self):
+        os.chdir(self.fullpath)
+        os.system('/bin/bash')
+
+    # add data to json file
+    def add_to_json(self):
+        time = strftime("%d %b %Y", gmtime())
+        data = {"name":self.name, "description":self.desc,"path":self.fullpath ,"created-on":time}
+
+        path = os.path.join(self.path, 'houdini.json')
+        read_data = read_json(path)
+        read_data['projects'].append(data)
+        dump_json(path, read_data)
+
+    # create sub-dir 
+    def create_sub_dir(self):
+        dirs = ['hip','geo','cache','image','render']
+        for dir in dirs:
+            path = os.path.join(self.fullpath, dir)
+            os.mkdir(path)
 
