@@ -22,8 +22,6 @@ class CreateProject():
             return False
 
 
-
-
     # check if the project already exist
     def create_dir(self):
             # create directory
@@ -34,11 +32,11 @@ class CreateProject():
             self.create_sub_dir()
 
 
-
     # change directory
     def cwd(self):
         os.chdir(self.fullpath)
         os.system('/bin/bash')
+
 
     # add data to json file
     def add_to_json(self):
@@ -50,9 +48,10 @@ class CreateProject():
         read_data['projects'].append(data)
         dump_json(path, read_data)
 
+
     # create sub-dir 
     def create_sub_dir(self):
-        dirs = ['hip','geo','cache','image','render']
+        dirs = ['hip','geo','cache','image','render','had','scripts']
         for dir in dirs:
             path = os.path.join(self.fullpath, dir)
             os.mkdir(path)
