@@ -11,13 +11,14 @@ print(read_requirements())
 
 setup(
     name="elna",
-    version="0.1",
-    py_modules=['el'],
+    version="0.2",
+    py_modules=['el','houd'],
     packages=find_packages(),
     include_package_data =True,
     install_requires=['click'],
     entry_points='''
         [console_scripts]
         el=el.cli:cli
+        hou=hou.cli:cli
     '''
 )
