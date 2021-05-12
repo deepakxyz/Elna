@@ -15,7 +15,7 @@ class CreateShow():
         self.short_name = short_name
         self.desc = desc # description
 
-    # if the current directory as a file main.config and the base_show_path attribute
+    # if the current directory has main.config file and the base_show_path attribute
     # then run the other commands
     @staticmethod
     def check_cwd(path):
