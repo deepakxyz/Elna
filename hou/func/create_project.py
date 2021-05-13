@@ -41,7 +41,7 @@ class CreateProject():
     # add data to json file
     def add_to_json(self):
         time = strftime("%d %b %Y", gmtime())
-        data = {"name":self.name, "description":self.desc,"path":self.fullpath ,"created-on":time}
+        data = {"name":self.name, "description":self.desc,"path":self.fullpath ,"created-on":time,"otls":[]}
 
         path = os.path.join(self.path, 'houdini.json')
         read_data = read_json(path)
@@ -51,8 +51,18 @@ class CreateProject():
 
     # create sub-dir 
     def create_sub_dir(self):
-        dirs = ['hip','geo','cache','image','render','had','scripts']
+        dirs = ['hip','geo','abc','cache','image','render','hda','scripts','tex']
         for dir in dirs:
             path = os.path.join(self.fullpath, dir)
             os.mkdir(path)
+
+        # create hou file
+        hou_data = {'details':[{"name":self.name, "status":"WIP","final_file":[],"last_working_file":None,'level':"project"}]}
+        # save file
+        file_path = os.path.join(self.fullpath, 'hou')
+        dump_json(file_path,hou_data)
+
+
+    # create hip file
+        
 
