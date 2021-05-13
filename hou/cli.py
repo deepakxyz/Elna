@@ -8,6 +8,7 @@ from hou.utils.read_dump import read_json, dump_json
 
 from hou.func.create_project import CreateProject
 from hou.func.gopro import GoPro
+from hou.func.project import Launch
 
 
 class Context:
@@ -121,12 +122,14 @@ def gopro(ctx,proname, list, last):
 
 # command runs inside houdini project folder
 @cli.command()
-def check():
+def launch():
     # check if the folder is a houdini project
     dir = os.getcwd()
     hou_file =os.path.join(dir,'hou')
     if os.path.isfile(hou_file):
         print('You are fucking inside the project directory. Good')
+        h = Launch.check_if_hip_exists(cwd=dir)
+
 
     else:
         click.echo("WARRNING: You are not inside the Houdini project to run this command.")

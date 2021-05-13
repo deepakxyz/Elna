@@ -3,6 +3,8 @@ from hou.utils.utils import echo, cwd
 from hou.utils.read_dump import read_json, dump_json
 from time import gmtime, strftime
 
+from hou.globals import PRO_SUB_DIR
+
 # create new houdini project
 class CreateProject():
     def __init__(self,path,name,desc):
@@ -51,7 +53,7 @@ class CreateProject():
 
     # create sub-dir 
     def create_sub_dir(self):
-        dirs = ['hip','geo','abc','cache','image','render','hda','scripts','tex']
+        dirs = PRO_SUB_DIR
         for dir in dirs:
             path = os.path.join(self.fullpath, dir)
             os.mkdir(path)
@@ -65,6 +67,7 @@ class CreateProject():
 
     # create hip file
     def create_houdini_file(self):
+        os.system('cmd /c ')
         pass
         
 
