@@ -17,6 +17,7 @@ class el:
         os.system('/bin/bash')
 
 
+
     @classmethod
     def log(cls, msg, level):
         logging.basicConfig(level=logging.DEBUG, filename='test.log', format='%(asctime)s -%(levelname)s -- %(message)s')
