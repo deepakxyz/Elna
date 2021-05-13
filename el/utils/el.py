@@ -13,6 +13,7 @@ class el:
     @classmethod
     def cwd(cls,path):
         os.chdir(path)
+        # os.system('/bin/zsh')
         os.system('/bin/bash')
 
 
