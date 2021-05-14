@@ -74,7 +74,7 @@ def create_project(ctx):
 # gopro --list : list all the data
 @cli.command()
 @click.argument('proname',required=False)
-@click.option("--list", is_flag=True)
+@click.option("--list", is_flag=True,help='List all the Houdini Projects')
 @click.option("--last", is_flag=True)
 @click.pass_context
 def gopro(ctx,proname, list, last):
