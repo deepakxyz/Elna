@@ -22,7 +22,9 @@ def dump_json(json_file_path, data):
 data = read_json(hou_file)
 
 
-current_file_name = hou.hipFile.name()
+current_file_path = hou.hipFile.name()
+split = current_file_path.split('/')
+current_file_name = split[-1]
 
 list_dir = os.listdir(os.getcwd())
 if current_file_name in list_dir:
@@ -32,9 +34,10 @@ if current_file_name in list_dir:
     
 else:
     name = hou.ui.readInput("File Name", title="Save current file")[1]
-    name = name.replace(" ","_")
-    name = name + "_v001.hip"
-    hou.hipFile.save(name)
-    #log current file into hou.hip_files
-    data['hip_files'].append(name)
-    dump_json(hou_file, data)
+    if len(name)>1:
+        name = name.replace(" ","_")
+        name = name + "_v001.hip"
+        hou.hipFile.save(name)
+        #log current file into hou.hip_files
+        data['hip_files'].append(name)
+        dump_json(hou_file,data)
