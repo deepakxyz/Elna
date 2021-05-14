@@ -5,7 +5,7 @@ HOUDINI_JSON = 'houdini.json'
 # The above file must contain the followind
 LOG_JSON = 'log.json'
 # PROJECT SUB DIR
-PRO_SUB_DIR = ['geo','abc','cache','image','render','hda','scripts','tex']
+PRO_SUB_DIR = ['geo','abc','cache','image','render','otls','scripts','tex']
 
 '''
 {

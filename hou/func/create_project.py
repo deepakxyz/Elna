@@ -70,7 +70,7 @@ class CreateProject():
             os.mkdir(path)
 
         # create hou file
-        hou_data = {"name":self.name, "status":"WIP","hip_files":[],"last_working_file":None,'level':"project"}
+        hou_data = {"name":self.name, "status":"WIP","hip_files":[],"last_working_file":None,'level':"project","otls":[]}
         # save file
         file_path = os.path.join(self.fullpath, 'hou')
         dump_json(file_path,hou_data)

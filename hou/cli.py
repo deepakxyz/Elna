@@ -9,7 +9,7 @@ from hou.utils.read_dump import read_json, dump_json
 from hou.func.create_project import CreateProject
 from hou.func.gopro import GoPro
 from hou.func.project import Launch
-
+from hou.func.otls_publish import Otls
 
 class Context:
     def __init__(self, base_path, houdini_json, log_json):
@@ -141,3 +141,26 @@ def launch():
 
     else:
         click.echo("WARRNING: You are not inside the Houdini project to run this command.")
+
+
+
+# Publish Otls to the environment directory
+@cli.command()
+@click.option('--update',is_flag=True)
+@click.option('--list',is_flag=True)
+@click.option('--force-update', is_flag=True)
+def otls(update,list,force_update):
+    '''Otls utility'''
+    if update:
+        # update otls in json file
+        otls = Otls.check(BASE_PATH)
+
+    elif list:
+        otls = Otls.otls_list(BASE_PATH)
+
+    elif force_update:
+        # check if you in project directory
+        cwd = os.getcwd()
+        hou_file =os.path.join(cwd,'hou')
+        if os.path.isfile(hou_file):
+            otls = Otls.otls_force_update(BASE_PATH, cwd)

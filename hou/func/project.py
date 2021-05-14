@@ -19,7 +19,7 @@ class Launch():
             lastest_file_path = os.path.join(cwd, latest_file)
             if os.path.isfile(lastest_file_path):
                 print(f'''
-                Launching a the latest working file {latest_file}.
+                Launching a the latest working file > {latest_file}.
                 Happy Hacking!
                 ''')
                 os.system(f"cmd.exe /c start houdini {latest_file}")
