@@ -12,7 +12,7 @@ print(read_requirements())
 setup(
     name="elna",
     version="0.2",
-    py_modules=['el','houd'],
+    py_modules=['el','houd','v'],
     packages=find_packages(),
     include_package_data =True,
     install_requires=['click'],
@@ -20,6 +20,7 @@ setup(
         [console_scripts]
         el=el.cli:cli
         hou=hou.cli:cli
+        v=v.cli:cli
     '''
 
 )

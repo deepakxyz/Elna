@@ -13,3 +13,8 @@ To start and configure elna, use a command `el init` in a directory that you wan
 
 # Hou
 ## Required Environment Varialbe
+
+# V
+`v` has a playback commands for both djv and rv viewer
+- `v rv [fileindex]` : if fileindex is not mentioned it plays the first sequences. 
+- `v rv --list`      : List all sequences with the index.
