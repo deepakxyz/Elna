@@ -88,7 +88,10 @@ def gopro(ctx,proname, list, last):
             name = i['name']
             desc = i['description']
             otls = i['otls']
-            print(f"{name}: {desc} | otls: {otls}")
+            print(f'''
+                    Project Name: {name}
+                    Description: {desc}
+                    otls: {otls}''')
     
     # move to the project
     elif proname:
@@ -100,6 +103,10 @@ def gopro(ctx,proname, list, last):
         if proname in projects:
             # log the last gopro project
             ctx.obj.log_lastShow(proname=proname)
+
+            print(f'''
+            Current Project: {proname}
+            ''')
 
             # change directory into project directory
             cwd(os.path.join(BASE_PATH, proname))
@@ -123,12 +130,13 @@ def gopro(ctx,proname, list, last):
 # command runs inside houdini project folder
 @cli.command()
 def launch():
+    '''Open lastest working file, if the project has no working file launch a black houdini file.'''
     # check if the folder is a houdini project
     dir = os.getcwd()
     hou_file =os.path.join(dir,'hou')
     if os.path.isfile(hou_file):
         print('You are fucking inside the project directory. Good')
-        h = Launch.check_if_hip_exists(cwd=dir)
+        h = Launch.scene_file(hou_file_path=hou_file)
 
 
     else:

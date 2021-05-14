@@ -1,5 +1,6 @@
 import os
-
+from hou.utils.utils import echo
+from hou.utils.read_dump import read_json
 from hou.globals import PRO_SUB_DIR
 
 # lauch a blank file if there is not any .hip file
@@ -8,13 +9,29 @@ from hou.globals import PRO_SUB_DIR
 class Launch():
 
     @classmethod
-    def check_if_hip_exists(cls,cwd):
+    def scene_file(cls,hou_file_path):
         # list directory
-        for file in os.listdir(cwd):
-            if not file in PRO_SUB_DIR:
-                raw, ext = os.path.splitext(file)
-                if ext == '.hip':
-                    name = raw.split('_')
-                    del name[-1:]
-                    print(name)
-        
+        hou_file_data = read_json(hou_file_path)
+        if len(hou_file_data['hip_files']) > 0:
+            latest_file = hou_file_data['hip_files'][-1]
+            # check if the last file exists
+            cwd = os.getcwd()
+            lastest_file_path = os.path.join(cwd, latest_file)
+            if os.path.isfile(lastest_file_path):
+                print(f'''
+                Launching a the latest working file {latest_file}.
+                Happy Hacking!
+                ''')
+                os.system(f"cmd.exe /c start houdini {latest_file}")
+            
+            else:
+                echo(f"The file {latest_file} in the log data doesn't not exists in the directory.",lvl="WARNNING")
+                echo("Please check the directory and update the log file.")
+
+        else:
+            echo('Launching a Blank Houdini file.')
+            print('''
+            Happy Hacking!
+            ''')
+            os.system("cmd.exe /c start houdini")
+

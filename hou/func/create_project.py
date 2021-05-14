@@ -20,7 +20,12 @@ class CreateProject():
         if not os.path.isdir(fullpath):
             return True
         else:
-            echo(f"Project '{fullpath}' already exists.")
+            echo(f"Project '{fullpath}' already exists.",lvl="ERROR")
+            print(f'''
+                Sorry!, the project already exists.
+                Try creating a new project with a another name or if your looking for the
+                particular project use `hou goshow [project-name]` to move in the show.
+            ''')
             return False
 
 
@@ -29,6 +34,12 @@ class CreateProject():
             # create directory
             os.mkdir(self.fullpath)
             echo("Project successfull created.")
+            print(f'''
+                - The project is created in the hou home directory.
+                - It also created the following sub-directories
+                {PRO_SUB_DIR}
+                - Use `hou launch` to launch a blank houdini file.
+            ''')
             
             # create sub dirctory
             self.create_sub_dir()
@@ -59,7 +70,7 @@ class CreateProject():
             os.mkdir(path)
 
         # create hou file
-        hou_data = {'details':[{"name":self.name, "status":"WIP","final_file":[],"last_working_file":None,'level':"project"}]}
+        hou_data = {"name":self.name, "status":"WIP","hip_files":[],"last_working_file":None,'level':"project"}
         # save file
         file_path = os.path.join(self.fullpath, 'hou')
         dump_json(file_path,hou_data)
