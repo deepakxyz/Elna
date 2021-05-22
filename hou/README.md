@@ -11,6 +11,7 @@ Hou is a command line tool to make a creating and managing Houdini project easie
     - `--list`                             : List all the Houdini projects.
     - `--last`                             : Go to the last opend houdini projects.
 - `hou launch`                             : Launch latest working file of the project, if it is a new project it launches a blank file.
+- `hou launch --blank`                     : Launch a blank houdini file.
 - `hou otls [OPTIONS]
     - `--list`                             : List all the otls
     - `--update`                           : Update newly added otls

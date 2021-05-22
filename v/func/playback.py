@@ -6,7 +6,7 @@ def get_sequences():
         if os.path.isfile(file):
             raw, ext = os.path.splitext(file)
             raw = raw.split('.')
-            file_name = raw[0] +  ".#" + ext 
+            file_name = raw[0] +  ".##" + ext 
             if not file_name in sequences:
                 sequences.append(file_name)
         

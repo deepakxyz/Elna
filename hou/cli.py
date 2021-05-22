@@ -129,14 +129,18 @@ def gopro(ctx,proname, list, last):
 
 # command runs inside houdini project folder
 @cli.command()
-def launch():
+@click.option('--blank','-b',is_flag=True, help="Launch a blank file.")
+def launch(blank):
     '''Open lastest working file, if the project has no working file launch a black houdini file.'''
     # check if the folder is a houdini project
     dir = os.getcwd()
     hou_file =os.path.join(dir,'hou')
     if os.path.isfile(hou_file):
         print('You are fucking inside the project directory. Good')
-        h = Launch.scene_file(hou_file_path=hou_file)
+        if blank:
+            os.system("cmd.exe /c start houdini")
+        else:
+            h = Launch.scene_file(hou_file_path=hou_file)
 
 
     else:
