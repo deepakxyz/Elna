@@ -1,6 +1,7 @@
 import os
 import logging
 
+
 class el:
 
     # echo fucn to print and log information
@@ -22,3 +23,5 @@ class el:
     def log(cls, msg, level):
         logging.basicConfig(level=logging.DEBUG, filename='test.log', format='%(asctime)s -%(levelname)s -- %(message)s')
         logging.debug(f'Add {num1} + {num2} = {add_result}')
+
+    

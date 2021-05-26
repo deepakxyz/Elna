@@ -1,0 +1,73 @@
+{
+    "version": "1.17",
+    "alias": "pipeline-base",
+    "color": "#991c24",
+    "mute": false,
+    "solo": false,
+    "meta_data": {
+        "positions": {
+            "/Create_Show": [
+                175.43108787217176,
+                -88.19061112213798
+            ],
+            "/Init": [
+                -247.52333920279654,
+                -87.42738460394546
+            ],
+            "/Init/node": [
+                0.0,
+                0.0
+            ],
+            "/node": [
+                -41.784196303925214,
+                85.05490864370543
+            ],
+            "/node2": [
+                313.0,
+                71.0
+            ]
+        },
+        "collapse": {
+            "/Create_Show": false,
+            "/Create_Show/create_data_base": true,
+            "/Init": false,
+            "/node": false
+        }
+    },
+    "nodes": {
+        "/Create_Show": {
+            "execute_in": "/Init",
+            "child_order": [
+                "create_data_base"
+            ],
+            "code": [
+                "STAGE.base_dir = False",
+                "if STAGE.base_dir:",
+                "    STAGE.show = True",
+                "",
+                "",
+                "print('Creating Show')",
+                "print('Asset Build')",
+                "print('Asset Publish')",
+                "print('Sequences')"
+            ]
+        },
+        "/Create_Show/create_data_base": {
+            "code": [
+                "# main show json file",
+                "#    which contains all the project details, published assets, total number of shots in the each sequences.",
+                "STAGE.showname_json = {\"name\":\"showname\", \"create-on\":\"somedate\", \"assets\":{}, \"sequences\": {}"
+            ]
+        },
+        "/Init": {
+            "start_point": true,
+            "code": [
+                "# Make sure base directory is initialized because we are not gonna check each time if the base_dir exists.",
+                "# There can be only one base directory.",
+                "STAGE.base_dir = True",
+                "STAGE.data_base = True",
+                ""
+            ]
+        }
+    }
+}
