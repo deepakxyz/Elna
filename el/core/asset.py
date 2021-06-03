@@ -3,7 +3,7 @@ from time import gmtime, strftime
 
 from el.core.levels import Level
 from el.utils.read_dump import read_json, dump_json
-from el.utils.el import el
+from el.utils.el import el, Path
 
 
 class CreateAsset():
@@ -71,22 +71,26 @@ class Asset():
 
     @classmethod
     def asset_list(cls):
-        path =os.path.join(os.getcwd(), 'asset_build', 'asset_build.lv')
-        data = read_json(path)
-        for asset in data['assets']:
-            p_data_1 = f'''
-            {asset} '''
-            print(p_data_1)
-            for i in data['assets'][asset]:
-                print_data = f'''
-                Name: {i['name']}
-                Created-on: {i['created-on']}
-                Published: {i['publishes']}
-                Command:
-                el asset -t {asset} -a {i['name']}
-                -----------------------------
-                '''
-                print(print_data)
+
+        # get current show name
+        show_name = Path.show_name(os.getcwd())
+        if show_name:
+            path =os.path.join(show_name, 'asset_build', 'asset_build.lv')
+            data = read_json(path)
+            for asset in data['assets']:
+                p_data_1 = f'''
+                {asset} '''
+                print(p_data_1)
+                for i in data['assets'][asset]:
+                    print_data = f'''
+                    Name: {i['name']}
+                    Created-on: {i['created-on']}
+                    Published: {i['publishes']}
+                    Command:
+                    el asset -t {asset} -a {i['name']}
+                    -----------------------------
+                    '''
+                    print(print_data)
 
     @classmethod
     def go_asset(cls,cat, asset_name):

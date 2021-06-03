@@ -1,5 +1,8 @@
 import os
+import re
 import logging
+from el.config.GLOBALS import CONFIG_FILE_PATH
+from el.utils.read_dump import read_json, read_yaml
 
 
 class el:
@@ -39,6 +42,25 @@ def current_show(path):
     print(i)
 
 
+class Path():
+    config = read_yaml(CONFIG_FILE_PATH)
+    show_base_path = config['base_show_path']
 
-path = '/mnt/y/pipeline/Shows/Mayday/asset_build'
-current_show(path)
+    @classmethod
+    def show_name(cls,path):
+        if cls.show_base_path in path:
+            show_name = re.sub(cls.show_base_path, '', path)
+            show_name = show_name.split('/')
+            if len(show_name) <= 1:
+                return None
+            else:
+                show_name.pop(0)
+                output = os.path.join(cls.show_base_path, show_name[0])
+                return output
+        else:
+            el.echo('''
+            You are not the show level.
+            Use the command  'el goshow' to move to the show level.
+
+            ''',lvl="ERROR")
+
