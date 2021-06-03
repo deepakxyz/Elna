@@ -1,6 +1,6 @@
 import click
 from el.utils.el import el
-from el.func.goshow import GoShow
+from el.core.goshow import GoShow
 
 
 @click.command()
@@ -11,11 +11,11 @@ def cli(list, showname):
 
     # list all the shows with the option
     if list:
-        click.echo('List shows')
+        GoShow.goshow_list()
 
     # move into the show
     elif showname:
-        click.echo(showname)
+        GoShow.goshow(showname=showname)
 
     # only goshow
     else:

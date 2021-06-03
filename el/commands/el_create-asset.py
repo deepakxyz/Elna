@@ -1,7 +1,7 @@
 import click
 import os
 
-from el.core.create_asset import CreateAsset
+from el.core.asset import CreateAsset
 
 
 

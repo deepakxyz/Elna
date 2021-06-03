@@ -1,14 +1,15 @@
 import os
 from time import gmtime, strftime
+
 from el.core.levels import Level
 from el.utils.read_dump import read_json, dump_json
-
+from el.utils.el import el
 
 
 class CreateAsset():
 
     asset_types = ['char', 'env', 'matte', 'prop']
-    asset_sub_dir = ['cfx', 'fx','groom', 'lookDev', 'model', 'reference', 'renders', 'rig', 'rnd', 'temp', 'zfile', 'tex'] 
+    asset_sub_dir = ['cfx', 'fx','groom', 'lookDev', 'model', 'reference', 'renders', 'rig', 'rnd', 'temp', 'zfile', 'tex','cache'] 
 
     @classmethod
     def check(cls):
@@ -45,7 +46,7 @@ class CreateAsset():
 
         asset_details = {"name": asset_name,
         "created-on":created_on,
-        "pulishes":[]
+        "publishes":[]
         }
 
         data = read_json(asset_build_lv_file)
@@ -55,10 +56,41 @@ class CreateAsset():
         dump_json(asset_build_lv_file, data)
         
 
-        
+class Asset():
 
+    @classmethod
+    def check(cls):
+        if Level.check():
+            return True
+        elif Level.check('asset_build'):
+            return True
+        else:
+            return False
+    
+    # read the asset file
 
+    @classmethod
+    def asset_list(cls):
+        path =os.path.join(os.getcwd(), 'asset_build', 'asset_build.lv')
+        data = read_json(path)
+        for asset in data['assets']:
+            p_data_1 = f'''
+            {asset} '''
+            print(p_data_1)
+            for i in data['assets'][asset]:
+                print_data = f'''
+                Name: {i['name']}
+                Created-on: {i['created-on']}
+                Published: {i['publishes']}
+                Command:
+                el asset -t {asset} -a {i['name']}
+                -----------------------------
+                '''
+                print(print_data)
 
-
+    @classmethod
+    def go_asset(cls,cat, asset_name):
+        path = os.path.join(os.getcwd(),'asset_build', cat, asset_name)
+        el.cwd(path)
 
 
