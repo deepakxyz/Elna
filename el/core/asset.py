@@ -9,7 +9,7 @@ from el.utils.el import el, Path
 class CreateAsset():
 
     asset_types = ['char', 'env', 'matte', 'prop']
-    asset_sub_dir = ['cfx', 'fx','groom', 'lookDev', 'model', 'reference', 'renders', 'rig', 'rnd', 'temp', 'zfile', 'tex','cache'] 
+    asset_sub_dir = ['cfx', 'fx','groom', 'lookDev', 'model', 'reference', 'renders', 'rig', 'rnd', 'temp', 'zfile', 'tex','cache', 'anim'] 
 
     @classmethod
     def check(cls):
@@ -29,10 +29,10 @@ class CreateAsset():
     def create_directory(cls,asset_name,type,desc):
 
         # base show directory
-        show_director = os.getcwd()
+        show_directory = os.getcwd()
 
         # create asset directory
-        asset_directory_path = os.path.join(show_director, 'asset_build', type, asset_name)
+        asset_directory_path = os.path.join(show_directory, 'asset_build', type, asset_name)
         os.mkdir(asset_directory_path)
 
         # create sub directory
@@ -41,7 +41,7 @@ class CreateAsset():
             os.mkdir(path)
 
         # add data to asset_build.lv file
-        asset_build_lv_file = os.path.join(show_director, 'asset_build', 'asset_build.lv')
+        asset_build_lv_file = os.path.join(show_directory, 'asset_build', 'asset_build.lv')
         created_on = strftime("%d %b %Y", gmtime())
 
         asset_details = {"name": asset_name,
@@ -54,7 +54,10 @@ class CreateAsset():
 
         # dump data
         dump_json(asset_build_lv_file, data)
+
+        asset_lvl_file_path = os.path.join(asset_directory_path, 'asset.lvl')
         
+        dump_json(asset_lvl_file_path, asset_details)
 
 class Asset():
 
@@ -85,7 +88,7 @@ class Asset():
                     print_data = f'''
                     Name: {i['name']}
                     Created-on: {i['created-on']}
-                    Published: {i['publishes']}
+                    Publishes: {i['publishes']}
                     Command:
                     el asset -t {asset} -a {i['name']}
                     -----------------------------
@@ -95,6 +98,9 @@ class Asset():
     @classmethod
     def go_asset(cls,cat, asset_name):
         path = os.path.join(os.getcwd(),'asset_build', cat, asset_name)
-        el.cwd(path)
+        if os.path.isdir(path):
+            el.cwd(path)
+        else:
+            el.echo("The asset doesn't exsits under this category.",lvl="ERROR")
 
 

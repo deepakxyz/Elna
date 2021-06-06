@@ -1,7 +1,7 @@
 import click
 import os
 
-from el.core.asset import CreateAsset
+from el.core.asset import CreateAsset, Asset
 
 
 
@@ -27,6 +27,9 @@ def cli(asset_name):
 
                 # create asset directory
                 create_asset.create_directory(asset_name,type, desc)
+
+                # move to asset
+                Asset.go_asset(cat=type, asset_name=asset_name)
             
             else:
 
