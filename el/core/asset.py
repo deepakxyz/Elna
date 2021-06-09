@@ -46,7 +46,17 @@ class CreateAsset():
 
         asset_details = {"name": asset_name,
         "created-on":created_on,
-        "publishes":[]
+        "publishes":[],
+        "build_files":{
+            "zfile":[],
+            "model":[],
+            "rig":[],
+            "animation":[],
+            "groom":[],
+            "cfx":[],
+            "fx":[],
+            "lookDev":[]
+        }
         }
 
         data = read_json(asset_build_lv_file)
