@@ -1,4 +1,5 @@
 import sys
+import time
 import os
 from PySide6 import QtCore, QtGui, QtWidgets
 from qt_material import apply_stylesheet
@@ -68,8 +69,19 @@ class Files():
         elif filename.endswith('.hip'):
             return 'Houdini'
 
+        elif filename.endswith('.ztl') or filename.endswith('.ZTL'):
+            return 'ZBrush'
+
         else:
             return "Unsupported format"
+
+
+    @classmethod
+    def last_modified(cls, filepath):
+        modeified = os.path.getmtime(filepath)
+        m_time = (time.ctime(modeified))
+
+        return m_time
 
     @classmethod
     def find_master_file_type(cls,master_file, all_files):
@@ -81,6 +93,9 @@ class Files():
                     return file_type
                 elif ext == ".hip":
                     file_type = "Houdini"
+                    return file_type
+                elif ext == ".ZTL" or ext == ".ztl":
+                    file_type = "ZBrush"
                     return file_type
                 else:
                     return "Unsupported format"
@@ -97,18 +112,41 @@ class AssetLauncher(QtWidgets.QWidget):
 
         self.setWindowTitle('El Asset Launcher')
         self.setMinimumSize(1000,300)
+        self.setIcon()
 
 
         self.BASE_PATH = os.path.join(os.getcwd(), 'asset_build')
         self.launch_file_path = None
 
+        # TESTING
+        # TEMP BASE_PATH
+        self.BASE_PATH = os.path.join('Y:/pipeline/Shows/little_lines/asset_build')
+
+        self.create_actions()
         self.create_widget()
         self.create_layout()
         self.create_connection()
 
         self.clipboard_data = QtGui.QGuiApplication.clipboard()
 
+        # OPEN WITH LOADED DATA
+        # self.refresh_tree_widget()
+
+    def setIcon(self):
+        appIcon = QtGui.QIcon('Z:/Elna/el/app/icons/head.png')
+        self.setWindowIcon(appIcon)
+
+    def create_actions(self):
+        # self.about_action = QtWidgets.QMenuBar.addAction("Help",self)
+        pass
+
     def create_widget(self):
+        
+        self.menu_bar = QtWidgets.QMenuBar()
+        Launcher = self.menu_bar.addMenu('Launcher')
+        help_menu = self.menu_bar.addMenu('Help')
+        # help_menu.addAction(self.about_action)
+
         self.asset_type = QtWidgets.QComboBox()
         self.asset_type.addItems(['char', 'prop','env','matte'])
 
@@ -131,7 +169,8 @@ class AssetLauncher(QtWidgets.QWidget):
         # self.tree_widget.setColumnCount(2)
         self.tree_widget.headerItem().setText(0,'File name')
         self.tree_widget.headerItem().setText(1,'Type')
-        self.tree_widget.setColumnWidth(0, 400)
+        self.tree_widget.headerItem().setText(2,'Last Modified')
+        self.tree_widget.setColumnWidth(0, 220)
 
         # buttom buttom
         self.launch_blank = QtWidgets.QPushButton('Launch Blank')
@@ -142,6 +181,10 @@ class AssetLauncher(QtWidgets.QWidget):
         self.maya_blk_file.setChecked(True)
         self.hou_blk_file = QtWidgets.QRadioButton('Houdini')
         self.nuk_blk_file = QtWidgets.QRadioButton('Nuke')
+        self.katana_blk_file = QtWidgets.QRadioButton('Katana')
+        self.subP_blk_file = QtWidgets.QRadioButton('Painter')
+        self.subD_blk_file = QtWidgets.QRadioButton('Designer')
+        self.blender_blk_file = QtWidgets.QRadioButton('Blender')
 
 
         # status bar 
@@ -158,7 +201,6 @@ class AssetLauncher(QtWidgets.QWidget):
         self.output_log_wget.append('')
 
 
-
     def create_layout(self):
         form_layout = QtWidgets.QFormLayout()
         form_layout.addRow('Type', self.asset_type)
@@ -172,16 +214,21 @@ class AssetLauncher(QtWidgets.QWidget):
 
         # blank types
         launch_blank_type_layout = QtWidgets.QHBoxLayout()
-        launch_blank_type_layout.addStretch(True)
         launch_blank_type_layout.addWidget(self.maya_blk_file)
         launch_blank_type_layout.addWidget(self.hou_blk_file)
         launch_blank_type_layout.addWidget(self.nuk_blk_file)
+        launch_blank_type_layout.addWidget(self.katana_blk_file)
+        launch_blank_type_layout.addWidget(self.subD_blk_file)
+        launch_blank_type_layout.addWidget(self.subP_blk_file)
+        launch_blank_type_layout.addWidget(self.blender_blk_file)
 
 
 
 
         # mainlayout
         main_layout = QtWidgets.QVBoxLayout()
+        # add menu bar
+        # main_layout.setContentsMargins(4,4,4,4)
         main_layout.addLayout(form_layout)
         main_layout.addWidget(self.update_btn)
         main_layout.addWidget(self.tree_widget)
@@ -195,6 +242,9 @@ class AssetLauncher(QtWidgets.QWidget):
 
         # toplayout
         top_layout = QtWidgets.QHBoxLayout(self)
+        top_layout.setContentsMargins(3,3,3,3)
+        top_layout.setSpacing(2)
+        top_layout.setMenuBar(self.menu_bar)
         top_layout.addLayout(main_layout)
         top_layout.addLayout(output_layout)
 
@@ -240,6 +290,10 @@ class AssetLauncher(QtWidgets.QWidget):
             self.launch_file_path = os.path.join(self.path, self.build_type_data, self.item_data)
             # status bar
             self.statusBar_wgt.showMessage(f'Launch file: {self.item_data}')
+            self.statusBar_wgt.setProperty("type", "error")
+            # clipboard: Copy only the directory path
+            self.clipboard_data.setText(os.path.join(self.path, self.build_type_data))
+            
         else:
             self.launch_file_path = None
 
@@ -261,6 +315,11 @@ class AssetLauncher(QtWidgets.QWidget):
             if not self.launch_file_path is None:
 
                 os.system(f"cmd.exe /c start houdini {self.launch_file_path}")
+
+        elif self.item_data.endswith('.ZTL'):
+            if not self.launch_file_path is None:
+
+                os.system(f"cmd.exe /c start {self.launch_file_path}")
         
         else:
             self.statusBar_wgt.showMessage('Selected file is not a valid file format')
@@ -283,10 +342,23 @@ class AssetLauncher(QtWidgets.QWidget):
             path = os.path.join(self.BASE_PATH, asset_type, asset, self.build_type_data)
             os.chdir(path) 
             os.system("cmd.exe /c start houdini")
-        
-        else:
-            print('wooo')
 
+            self.statusBar_wgt.showMessage('Launching blank houdini file',3000)
+        
+        elif self.nuk_blk_file.isChecked():
+            self.statusBar_wgt.showMessage('Nuke is not yet supported',3000)
+
+        elif self.katana_blk_file.isChecked():
+            self.statusBar_wgt.showMessage('Katana is not yet supported',3000)
+
+        elif self.subD_blk_file.isChecked():
+            self.statusBar_wgt.showMessage('Substance Designer is not yet supported',3000)
+
+        elif self.subP_blk_file.isChecked():
+            self.statusBar_wgt.showMessage('Substance Painter is not yet supported',3000)
+
+        elif self.blender_blk_file.isChecked():
+            self.statusBar_wgt.showMessage('Blender is not yet supported',3000)
 
     def refresh_tree_widget(self):
 
@@ -302,7 +374,7 @@ class AssetLauncher(QtWidgets.QWidget):
         style = '''
         <style>
         a{
-            color:#EAB729;
+            color:#E3BA65;
         }
         </style>
         '''
@@ -313,11 +385,12 @@ class AssetLauncher(QtWidgets.QWidget):
         <br>
         '''
         html = html.replace('\\', '/')
-        self.output_log_wget.insertHtml(html)
-        self.output_log_wget.setOpenExternalLinks(False)
-        self.output_log_wget.setOpenLinks(False)
-        # self.output_log_wget.append('')
-        self.output_log_wget.moveCursor(QtGui.QTextCursor.End)
+        if asset_type and asset:
+            self.output_log_wget.insertHtml(html)
+            self.output_log_wget.setOpenExternalLinks(False)
+            self.output_log_wget.setOpenLinks(False)
+            # self.output_log_wget.append('')
+            self.output_log_wget.moveCursor(QtGui.QTextCursor.End)
 
 
 
@@ -331,18 +404,25 @@ class AssetLauncher(QtWidgets.QWidget):
         if master_list:
             for name in master_list:
 
+                
                 item  = QtWidgets.QTreeWidgetItem([name, Files.find_master_file_type(name,files_list)])
-                print(master_list)
 
 
                 # adding child elements
                 children_list = Files.get_children(item.text(0), Files.get_files(self.path,self.build_type_data))
 
+
                 if children_list:
                     only_version = Files.get_only_version(children_list)
 
+
                     for i,child in enumerate(only_version[0]):
-                        child_element = QtWidgets.QTreeWidgetItem([child, Files.find_type(child)])
+
+                        child_file_path =os.path.join(self.path,self.build_type_data,name +"_" +child)
+                        last_modeified = Files.last_modified(child_file_path)
+                        print(last_modeified)
+
+                        child_element = QtWidgets.QTreeWidgetItem([child, Files.find_type(child),last_modeified])
                         child_element.setData(QtCore.Qt.UserRole,0 ,only_version[1][i] )
                         item.addChild(child_element)
 
@@ -352,6 +432,7 @@ class AssetLauncher(QtWidgets.QWidget):
         else:
             item = QtWidgets.QTreeWidgetItem(['No file found'])
             self.statusBar_wgt.showMessage('No file found in the given input.', 4000)
+            self.output_log_wget.append('')
             html = 'No file found in the given input. Please check the directory'
             self.output_log_wget.insertHtml(html)
             self.output_log_wget.append('')
@@ -407,11 +488,10 @@ if __name__ == "__main__":
     window = AssetLauncher()
 
 
-
-    # style_file = QtCore.QFile('dark.qss')
-    # style_file.open(QtCore.QFile.ReadOnly | QtCore.QFile.Text)
-    # stream = QtCore.QTextStream(style_file)
-    # app.setStyleSheet(stream.readAll())
+    style_file = QtCore.QFile('Z:/Elna/el/app/resources/styles/usdviewstyle.qss')
+    style_file.open(QtCore.QFile.ReadOnly | QtCore.QFile.Text)
+    stream = QtCore.QTextStream(style_file)
+    app.setStyleSheet(stream.readAll())
 
 
     window.show()

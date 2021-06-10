@@ -1,23 +1,19 @@
+import os.path, time
+file = r"Y:\pipeline\Shows\little_lines\asset_build\char\dav\model\head_model_v002.mb"
+file_2 = r"Y:\pipeline\Shows\little_lines\asset_build\char\dav\model\head_model_v001.mb"
+# print("Last modified: %s" % time.ctime(os.path.getmtime("test.txt")))
+
+
+f_modefied = os.path.getmtime(file_2)
+
+modeified = os.path.getmtime(file)
+c_time = (time.ctime(modeified))
+# print(f_modefied < modeified)
+
+
+import glob
 import os
-all_files = ['sphere_main_model_v001.mb', 'sphere_main_model_v002.mb', 'sphere_model_v001.hip']
-master_files = ['sphere_main_model', 'sphere_model']
 
-
-def test(master_file, all_files):
-    print(master_file, all_files)
-    for file in all_files:
-        if file.startswith(master_file):
-            raw, ext = os.path.splitext(file)
-            if ext == ".mb" or ext == ".ma":
-                file_type = "Maya"
-                return file_type
-            elif ext == ".hip":
-                file_type = "Houdini"
-                return file_type
-            else:
-                return "Unsupported format"
-
-
-
-
-print(test(master_files[1], all_files))
+files = [file, file_2]
+files.sort(key=os.path.getmtime)
+print("\n".join(files))

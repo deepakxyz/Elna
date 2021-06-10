@@ -7,7 +7,7 @@ path = '/mnt/y/pipeline/Shows/Mayday/asset_build'
 
 @click.command()
 def cli():
-    '''Test'''
+    '''Asset Launcher'''
     if Level.check('show'):
 
         os.system('cmd.exe /c python  Z:/Elna/el/app/asset.py')

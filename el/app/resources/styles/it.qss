@@ -1,0 +1,150 @@
+It3MainWindow {
+    min-width:  235px;
+    min-height: 100px;
+}
+
+QAbstractSpinBox {
+    font-size:   10px;
+}
+
+QCheckBox {
+    color: #C8C8C8;
+    font-size:   11px;
+}
+QCheckBox:disabled {
+    color: #707070;
+}
+
+QComboBox:disabled {
+    color: #707070;
+}
+
+QAbstractSlider {
+    max-width: 288px;
+}
+
+QDockWidget::title {
+    background: #444444;
+    text-align: center;
+    color: #C8C8C8;
+}
+
+QDockWidget {
+    font-size:   11px;
+    font:   courier;
+    color: #C8C8C8;
+}
+
+QGroupBox {
+    font-size:   11px;
+}
+
+QLabel {
+    font-size:   11px;
+}
+QLabel:disabled {
+    color: #707070;
+}
+QLabel#ExposureLabel {
+    font-size:   11px;
+    margin-left: 10;
+}
+QLabel#HUDLabel {
+    font-family: Courier;
+    font-size:   12px;
+    background-color: rgba(0,0,0,50%);
+    margin-left: 5;
+    min-width:  100px;
+    min-height: 48px;
+}
+QLabel#GammaLabel {
+    font-size:   11px;
+    margin-left: 10;
+}
+QLabel#PixelReadout {
+    font-family: Courier;
+    font-size:   10px;
+    margin-left: 10;
+}
+
+QPushButton {
+    font-size:   11px;
+}
+QPushButton:default {
+    border-color: #3875D6;
+    border-width: 2px;
+}
+QLineEdit {
+    font-size:   11px;
+}
+
+QRadioButton {
+    font-size:   11px;
+}
+
+QSplitter::handle:horizontal {
+     width: 2px;
+}
+
+QSplitter::handle:vertical {
+     height: 2px;
+}
+
+QSpinBox {
+    max-width: 40px;
+}
+QSpinBox:disabled {
+    color: #707070;
+}
+QDoubleSpinBox:disabled {
+    color: #707070;
+}
+
+QToolBar {
+    spacing: 0px;
+}
+
+QToolBar > QLineEdit {
+    font-size:   10px;
+    max-width: 32px;
+}
+
+QToolBar > QToolButton {
+    font-size:   10px;
+    font-family: Courier;
+    background: #444444;
+}
+
+QTreeView {
+    font-size:   11px;
+}
+
+QTreeView::item {
+    border: 1px solid #444444;
+}
+
+QTreeView::item:selected {
+    border: 1px solid #3875D6;
+    background: #3875D6;
+    color: #EFEFEF;
+}
+
+QTreeView::item:selected:!active {
+    border: 1px solid #D5D5D5;
+    background: #D2D2D2;
+    color: #000000;
+}
+
+QTreeView::branch:closed:has-children {
+         border-image: none;
+         image: url($RMSTREE/lib/Resources/images/cat-closed.svg);
+}
+
+QTreeView::branch:open:has-children {
+         border-image: none;
+         image: url($RMSTREE/lib/Resources/images/cat-open.svg);
+}
+
+QMenu::item:disabled {
+    color: #707070;
+}
