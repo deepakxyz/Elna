@@ -9,6 +9,7 @@ class CreateShow():
     def __init__(self,base_dir,show_name):
 
         self.base_dir = base_dir
+        show_name = show_name.replace(' ', '_')
         self.show_name = show_name
 
         # check has already been done by check() at the cli state
@@ -86,7 +87,7 @@ class CreateShow():
     def add_to_json(self, short_name, desc):
 
         time = strftime("%d %b %Y", gmtime())
-        data = {"name":self.show_name, "short-name":short_name, "description":desc, "created-on":time}
+        data = {"name":self.show_name, "short-name":short_name, "description":desc, "createdon":time}
 
         # adding to main json file
         path = os.path.join(self.base_dir, 'Shows.json')
@@ -99,6 +100,22 @@ class CreateShow():
         dump_json(show_level_file, data)
 
 
+    def shots_json_data(self, short_name):
+        # shots.lvl file data
+        # SEQ starts with 400
+        # SHOTS start with 1010
+        shots_data = {
+                "PREFIX": short_name, 
+                "shots":{
+                    "sequences":[
+                                ]
+                        },
+                "all_shots":[]
+        }
+
+        # Shots level json file
+        shot_level_file = os.path.join(self.base_dir, self.show_name, "shots", 'shots.lvl')
+        dump_json(shot_level_file, shots_data)
 
 
     def msg(self):

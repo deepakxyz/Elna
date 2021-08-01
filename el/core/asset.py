@@ -9,7 +9,11 @@ from el.utils.el import el, Path
 class CreateAsset():
 
     asset_types = ['char', 'env', 'matte', 'prop']
-    asset_sub_dir = ['cfx', 'fx','groom', 'lookDev', 'model', 'reference', 'renders', 'rig', 'rnd', 'temp', 'zfile', 'tex','cache', 'anim'] 
+    asset_build_sub_dir = ['cfx', 'fx','groom', 'lookDev', 'model', 'reference', 'renders', 'rig', 'rnd', 'temp', 'zfile', 'tex','cache', 'anim','comp'] 
+    # TODO: Have to find a way to publish zfiles and textures
+    asset_sub_dir = ['cfx', 'fx','groom', 'lookDev', 'model', 'renders', 'rig', 'zfile', 'tex', 'anim','comp'] # cfx and fx will the setup publishes
+
+
 
     @classmethod
     def check(cls):
@@ -25,18 +29,23 @@ class CreateAsset():
         else:
             return False
 
+    # creating directories under asset build folder 
     @classmethod
     def create_directory(cls,asset_name,type,desc):
 
         # base show directory
         show_directory = os.getcwd()
 
+        # check asset name for spaces
+        asset_name = asset_name.replace(' ', '-')
+
+
         # create asset directory
         asset_directory_path = os.path.join(show_directory, 'asset_build', type, asset_name)
         os.mkdir(asset_directory_path)
 
         # create sub directory
-        for dir in cls.asset_sub_dir:
+        for dir in cls.asset_build_sub_dir:
             path = os.path.join(asset_directory_path, dir)
             os.mkdir(path)
 
@@ -55,7 +64,8 @@ class CreateAsset():
             "groom":[],
             "cfx":[],
             "fx":[],
-            "lookDev":[]
+            "lookDev":[],
+            "comp":[]
         }
         }
 
@@ -68,6 +78,66 @@ class CreateAsset():
         asset_lvl_file_path = os.path.join(asset_directory_path, 'asset.lvl')
         
         dump_json(asset_lvl_file_path, asset_details)
+
+
+    # creating directories under asset folder 
+    @classmethod
+    def create_asset_directory(cls, asset_name,type,desc):
+        # base show directory
+        show_directory = os.getcwd()
+
+        # check asset name for spaces
+        asset_name = asset_name.replace(' ', '-')
+
+
+        # create asset directory
+        asset_directory_path = os.path.join(show_directory, 'assets', type, asset_name)
+        os.mkdir(asset_directory_path)
+
+        # create sub directory
+        for dir in cls.asset_sub_dir:
+            path = os.path.join(asset_directory_path, dir)
+            os.mkdir(path)
+
+        # add data to asset_build.lv file
+        asset_lv_file = os.path.join(show_directory, 'assets', 'asset.lv')
+        created_on = strftime("%d %b %Y", gmtime())
+
+        asset_details = {"name": asset_name,
+        "created-on":created_on,
+        "publishes":{
+            "zfile":[],
+            "model":[],
+            "rig":[],
+            "animation":[],
+            "groom":[],
+            "cfx":[],
+            "fx":[],
+            "lookDev":[]
+        }
+        }
+
+        '''
+        model: alembic / usd / obj
+        rig: Maya file / nxt-script
+        animation: Maya file
+        groom: houdini file
+        cfx: houdini file / Ziva (maya file)
+        fx: houidni file
+        lookDev: houdini / katana / maya
+
+        '''
+
+        data = read_json(asset_lv_file)
+        data['assets'][type].append(asset_details)
+
+        # dump data
+        dump_json(asset_lv_file, data)
+
+        asset_lvl_file_path = os.path.join(asset_directory_path, 'asset.lvl')
+        
+        dump_json(asset_lvl_file_path, asset_details)
+
 
 class Asset():
 

@@ -25,8 +25,12 @@ def cli(asset_name):
                 # get asset description
                 desc = click.prompt('Asset description')
 
-                # create asset directory
+                # create asset build directory
                 create_asset.create_directory(asset_name,type, desc)
+
+                # create asset directory
+                create_asset.create_asset_directory(asset_name, type, desc)
+
 
                 # move to asset
                 Asset.go_asset(cat=type, asset_name=asset_name)

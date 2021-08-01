@@ -33,7 +33,7 @@ class GoShow():
                 Show Name: {show['name']}
                 Show Short Name: {show['short-name']}
                 Description: {show['description']}
-                Created on: {show['created-on']}
+                Created on: {show['createdon']}
                 Command:
                 el goshow {show['name']}
             '''

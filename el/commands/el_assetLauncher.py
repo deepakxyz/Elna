@@ -10,6 +10,6 @@ def cli():
     '''Asset Launcher'''
     if Level.check('show'):
 
-        os.system('cmd.exe /c python  Z:/Elna/el/app/asset.py')
+        os.system('cmd.exe /c python  Z:/Elna/el/app/assetLauncher.py')
     else:
         os.system('el goshow --current')

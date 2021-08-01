@@ -72,6 +72,8 @@ class Files():
         elif filename.endswith('.ztl') or filename.endswith('.ZTL'):
             return 'ZBrush'
 
+        elif filename.endswith('.nk'):
+            return 'Nuke'
         else:
             return "Unsupported format"
 
@@ -97,6 +99,8 @@ class Files():
                 elif ext == ".ZTL" or ext == ".ztl":
                     file_type = "ZBrush"
                     return file_type
+                elif ext == '.nk':
+                    file_type = 'Nuke'
                 else:
                     return "Unsupported format"
 
@@ -110,7 +114,7 @@ class AssetLauncher(QtWidgets.QWidget):
     def __init__(self):
         super(AssetLauncher, self).__init__(parent=None)
 
-        self.setWindowTitle('El Asset Launcher')
+        self.setWindowTitle('El Asset Build Launcher')
         self.setMinimumSize(1000,300)
         self.setIcon()
 
@@ -120,7 +124,7 @@ class AssetLauncher(QtWidgets.QWidget):
 
         # TESTING
         # TEMP BASE_PATH
-        self.BASE_PATH = os.path.join('Y:/pipeline/Shows/little_lines/asset_build')
+        # self.BASE_PATH = os.path.join('Y:/pipeline/Shows/little_lines/asset_build')
 
         self.create_actions()
         self.create_widget()
@@ -147,6 +151,12 @@ class AssetLauncher(QtWidgets.QWidget):
         help_menu = self.menu_bar.addMenu('Help')
         # help_menu.addAction(self.about_action)
 
+
+        show_name = os.path.join(os.getcwd())
+        show_name = show_name.split('\\')
+        show_name = show_name[-1]
+        self.show_name = QtWidgets.QComboBox()
+        self.show_name.addItem(show_name)
         self.asset_type = QtWidgets.QComboBox()
         self.asset_type.addItems(['char', 'prop','env','matte'])
 
@@ -159,7 +169,7 @@ class AssetLauncher(QtWidgets.QWidget):
 
 
         self.build_type = QtWidgets.QComboBox()
-        self.build_type.addItems(['model','zfile','rig','anim','groom','lookDev','cfx','fx'])
+        self.build_type.addItems(['model','zfile','rig','anim','groom','lookDev','cfx','fx','comp'])
 
 
         self.update_btn = QtWidgets.QPushButton('Update')
@@ -173,8 +183,8 @@ class AssetLauncher(QtWidgets.QWidget):
         self.tree_widget.setColumnWidth(0, 220)
 
         # buttom buttom
-        self.launch_blank = QtWidgets.QPushButton('Launch Blank')
         self.launch_selected = QtWidgets.QPushButton('Launch Selected')
+        self.launch_blank = QtWidgets.QPushButton('Launch Blank')
 
         # blank file launch type
         self.maya_blk_file = QtWidgets.QRadioButton('Maya')
@@ -203,14 +213,15 @@ class AssetLauncher(QtWidgets.QWidget):
 
     def create_layout(self):
         form_layout = QtWidgets.QFormLayout()
+        form_layout.addRow('Current Show', self.show_name)
         form_layout.addRow('Type', self.asset_type)
         form_layout.addRow('Asset', self.asset)
         form_layout.addRow('Build Type', self.build_type)
 
         # launch btn layout
         launch_btn_layout = QtWidgets.QHBoxLayout()
-        launch_btn_layout.addWidget(self.launch_blank)
         launch_btn_layout.addWidget(self.launch_selected)
+        launch_btn_layout.addWidget(self.launch_blank)
 
         # blank types
         launch_blank_type_layout = QtWidgets.QHBoxLayout()
@@ -420,7 +431,6 @@ class AssetLauncher(QtWidgets.QWidget):
 
                         child_file_path =os.path.join(self.path,self.build_type_data,name +"_" +child)
                         last_modeified = Files.last_modified(child_file_path)
-                        print(last_modeified)
 
                         child_element = QtWidgets.QTreeWidgetItem([child, Files.find_type(child),last_modeified])
                         child_element.setData(QtCore.Qt.UserRole,0 ,only_version[1][i] )

@@ -35,6 +35,9 @@ def cli(show_name):
         # add data to main shows json file
         new_show.add_to_json(short_name=short_name, desc=desc)
 
+        # add shots json file
+        new_show.shots_json_data(short_name=short_name)
+
         # display message
         new_show.msg()
 
