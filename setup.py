@@ -11,7 +11,7 @@ print(read_requirements())
 
 setup(
     name="elna",
-    version="0.2",
+    version="0.3",
     py_modules=['el','houd','v'],
     packages=find_packages(),
     include_package_data =True,

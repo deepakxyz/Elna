@@ -1,7 +1,10 @@
 import click
 import os
-from v.func.utils import base_dir_to_win_dir
-from v.func.playback import get_sequences
+
+from click.decorators import argument
+from v.core.utils import base_dir_to_win_dir
+from v.core.playback import get_sequences
+from v.core.txconvert import converter
 
 
 @click.group()
@@ -36,4 +39,15 @@ def djv(fileindex,list):
         if not fileindex:
             fileindex = 0
         os.system(f'cmd.exe /c start djv {seq[int(fileindex)]}')
+
+
+
+@cli.command()
+@click.argument('filename', required=False)
+@click.option('--all', '-a', is_flag=True, help="Convert all the files in the directory")
+def txconvert(filename, all):
+    if all:
+        converter(all=True)
     
+    if filename:
+        converter(name=filename, all=False)

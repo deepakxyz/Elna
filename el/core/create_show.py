@@ -110,7 +110,8 @@ class CreateShow():
                     "sequences":[
                                 ]
                         },
-                "all_shots":[]
+                "all_shots":[],
+                "all_seq":[]
         }
 
         # Shots level json file
